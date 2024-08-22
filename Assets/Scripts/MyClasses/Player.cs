@@ -19,7 +19,7 @@ namespace Player{
 
         //nombre de los parametros de la animacion
         private const string FrontWalkAnimation = "Forward";
-        private const string SideWalkAnimation = "side";
+        private const string SideWalkAnimation = "Side";
         private const string RandomAnimation = "Jump";
 
 
