@@ -9,7 +9,7 @@ namespace Player{
     {
         //Attributes
         private float gravity = -9.81f;
-        private float speed = 18f;
+        private float speed = 2.0f;
         private float jumpForce = 30f;
         private bool groundedPlayer;
         private Vector3 velocity;
@@ -47,7 +47,7 @@ namespace Player{
         }
 
         public void Move(Vector3 direction){
-            var localDirection =controller.transform.TransformDirection(direction);
+            var localDirection = controller.transform.TransformDirection(direction);
             controller.Move(localDirection * Time.deltaTime * speed);
             controller.transform.Rotate(Vector3.up,direction.x* 2,Space.World);
             _animator.SetFloat(FrontWalkAnimation, direction.z);

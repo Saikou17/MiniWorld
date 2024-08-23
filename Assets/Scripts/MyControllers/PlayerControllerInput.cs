@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Interfaces;
+using Player;
 
 namespace Player_Controller
 {
@@ -23,20 +24,12 @@ namespace Player_Controller
         void Update()
         {
             Vector3 movementDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            Debug.Log(movementDirection);
             float transitionRun = 0;
 
             if (movementDirection != Vector3.zero)
             {
-                if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    transitionRun += 0.1f;
-                    character.Move(movementDirection*transitionRun);
-                }
-                else
-                {   
-                    transitionRun = 1.0f;
-                    character.Move(movementDirection);
-                }
+                character.Move(movementDirection);
             }
 
             if (Input.GetButtonDown("Jump"))
