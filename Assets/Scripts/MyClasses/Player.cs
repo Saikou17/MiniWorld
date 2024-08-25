@@ -30,6 +30,8 @@ namespace Player{
         public CharacterController controller { get; set; }
         public LayerMask groundMask;
 
+        public Transform orientation;
+
         //Methods
         public Player(CharacterController characterController, LayerMask groundLayerMask)
             {
@@ -49,7 +51,7 @@ namespace Player{
         public void Move(Vector3 direction){
             var localDirection = controller.transform.TransformDirection(direction);
             controller.Move(localDirection * Time.deltaTime * speed);
-            controller.transform.Rotate(Vector3.up,direction.x* 2,Space.World);
+            // controller.transform.Rotate(Vector3.up,direction.x* 2,Space.World);
             _animator.SetFloat(FrontWalkAnimation, direction.z);
             _animator.SetFloat(SideWalkAnimation, direction.x);
             
