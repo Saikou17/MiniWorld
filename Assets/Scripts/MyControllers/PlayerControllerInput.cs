@@ -7,7 +7,7 @@ using PlayerCam;
 
 namespace Player_Controller
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerControllerInput : MonoBehaviour
     {
 
         public LayerMask groundMask;
