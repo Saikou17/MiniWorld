@@ -7,14 +7,12 @@ namespace Player{
 
     public class Player : IMovement
     {
-        //Attributes
+        //Attributes    
         private float gravity = -9.81f;
         private float speed = 2.0f;
-        private float jumpForce = 30f;
         private bool groundedPlayer;
         private Vector3 velocity;
-
-        //animacion para el personaje
+        private Vector2 cameraLook;
         private readonly AnimatorController _animator;
 
         //nombre de los parametros de la animacion
@@ -29,7 +27,6 @@ namespace Player{
         //Controlar el jugador
         public CharacterController controller { get; set; }
         public LayerMask groundMask;
-
         public Transform orientation;
 
         //Methods
@@ -45,24 +42,30 @@ namespace Player{
 
         protected Player()
         {
-
+            
         }
 
+        //Funcion de movimiento del characte controller
         public void Move(Vector3 direction){
-            var localDirection = controller.transform.TransformDirection(direction);
+            var localDirection = controller.transform.TransformDirection(Vector3.ClampMagnitude(direction,1f));
             controller.Move(localDirection * Time.deltaTime * speed);
-            controller.transform.Rotate(Vector3.up,direction.x* 1,Space.World);
             _animator.SetFloat(FrontWalkAnimation, direction.z);
             _animator.SetFloat(SideWalkAnimation, direction.x);
             
         }
-        public void Jump(){
-            if(!AreYouOnTheGround() || velocity.y > 0) return;
-            velocity.y += Mathf.Sqrt(jumpForce*-3.0f*gravity);
-            controller.Move(velocity*Time.deltaTime);
-            _animator.SetTrigger(RandomAnimation);
 
+        //Funcion de movimiento de la camara
+        public void CameraView(Vector2 view, Transform cameraPlayer)
+        {
+            //Input y valores de la camara
+            cameraLook.x += view.x;
+            cameraLook.y = Mathf.Clamp(cameraLook.y + view.y, -90f, 90f);
+            //Aplicamos las rotaciones sobre la camara y el jugador
+            cameraPlayer.localRotation = Quaternion.Euler(-cameraLook.y, 0, 0);
+            controller.transform.rotation = Quaternion.Euler(0, cameraLook.x, 0);
+            // transform.localRotation = Quaternion.Euler(0,cameraLook.x,0);
         }
+        
         public void GroundedCharacter(){
             if(AreYouOnTheGround() && velocity.y < 0)
             {

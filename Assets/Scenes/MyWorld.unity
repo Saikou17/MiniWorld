@@ -9880,6 +9880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be1c0ebd29f69045bf11a27351af03c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraPlayer: {fileID: 639489314}
   groundMask:
     serializedVersion: 2
     m_Bits: 8

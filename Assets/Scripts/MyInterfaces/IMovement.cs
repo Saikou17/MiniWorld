@@ -6,12 +6,11 @@ namespace Interfaces{
 
     public interface IMovement
     {
-        //Methods
+        //Atributos
         public CharacterController controller { get; set; }
-        // For Movement and Jumping related actions
+        //Metodos
         public void Move(Vector3 position);
-        public void Jump();
-        // In a 3D game
+        public void CameraView(Vector2 position, Transform camera);
         public void GroundedCharacter();
         public bool AreYouOnTheGround();
     }
