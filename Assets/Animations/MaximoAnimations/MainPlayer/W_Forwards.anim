@@ -49432,16 +49432,16 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.3
-    functionName: MyListenerObject
+    functionName: PlayAudio
     data: 
-    objectReferenceParameter: {fileID: 8300000, guid: 332442a10f618ba40a79914fc70e57d6, type: 3}
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.8
-    functionName: MyListenerObject
+  - time: 0.8333333
+    functionName: PlayAudio
     data: 
-    objectReferenceParameter: {fileID: 8300000, guid: 15a7a07f885a292478aab1196dabeb7c, type: 3}
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

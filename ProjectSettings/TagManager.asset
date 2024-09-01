@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Animacion
   - Cinematica
+  - Stone
+  - Water
   layers:
   - Default
   - TransparentFX

@@ -11,7 +11,6 @@ namespace Interfaces{
         //Metodos
         public void Move(Vector3 position);
         public void CameraView(Vector2 position, Transform camera);
-        public void GroundedCharacter();
         public bool AreYouOnTheGround();
     }
 }

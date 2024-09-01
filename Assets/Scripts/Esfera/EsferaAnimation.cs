@@ -5,10 +5,13 @@ using UnityEngine;
 public class EsferaAnimation : MonoBehaviour
 {
 
+    //Creamos una animacion de rotacion
     public Vector3 rotation = new Vector3(40f,40f,40f);
-    public float moveSpeed = 2f; // Velocidad de movimiento vertical
-    public float moveAmplitude = 1f; // Amplitud del movimiento vertical (altura máxima)
-    private float startY; // Posición inicial en Y
+    // Velocidad de movimiento vertical
+    public float moveSpeed = 2f; 
+    // Amplitud del movimiento vertical (altura máxima)
+    public float moveAmplitude = 1f; 
+    private float startY;
     void Start()
     {
         // Guardar la posición inicial del objeto

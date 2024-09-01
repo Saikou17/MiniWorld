@@ -5,11 +5,10 @@ using Object = UnityEngine.Object;
 
 public class AnimationEvents : MonoBehaviour
 {
+    //Funcion para llamar objetos de AudioSource desde el Animation
     public void MyListenerObject (Object obj)
     {
-        Debug.Log($"Given Object IS an AudioClip? [{obj is AudioClip}]");
-        Debug.Log($"Given Object IS an GameObject? [{obj is GameObject}]");
-
+        // Castear el objeto a un AudioClip
         AudioClip aud = obj as AudioClip;
 
         if(aud != null)
@@ -17,6 +16,17 @@ public class AnimationEvents : MonoBehaviour
             // Play the audio clip
             GetComponent<AudioSource>().clip = aud;
             GetComponent<AudioSource>().Play();
+        }
+    }
+
+    //Funcion para desactivar objetos por nombre
+    public void MyDisabledGameObjectByName(string objectName)
+    {
+        // Buscar el objeto por nombre
+        GameObject obj = GameObject.Find(objectName);
+        if (obj != null)
+        {
+            obj.SetActive(false);
         }
     }
 }

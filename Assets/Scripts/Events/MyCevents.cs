@@ -1,73 +1,68 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Playables; // Agrega esta línea
+using UnityEngine.Playables;
 using Player_Controller;
 
 public class MyCevents : MonoBehaviour
 {
-
+    //Funciones delegadas
     public delegate void MyAnimationDelegate(GameObject targetObject);
 
-    public delegate void MyCinematicDelegate(GameObject value);
+    public delegate void MyCinematicDelegate();
 
+    //Variables de tipo de nuestras funciones
     public static MyAnimationDelegate myAnimationEvent;
 
     public static MyCinematicDelegate myCinematicEvent;
 
-    public GameObject obj;
+    //Atributos u Objetos a castear
+    public GameObject targetObject;
+    
+    [SerializeField] private PlayableDirector _playableDirector;
 
+    // Llamamos a nuestras funciones y las encapsulamos en las variable
     private void OnEnable() 
     {
        myAnimationEvent += ActivateAnimation;
        myCinematicEvent += PlayCinematic;
     }
 
+    //Desactivamos nuestros eventos cuando no estemos llamandolos
     private void OnDisable()
     {
        myAnimationEvent -= ActivateAnimation;
        myCinematicEvent -= PlayCinematic;
     }
 
+    // Funciones que llamarán a nuestras funciones delegadas
     private void ActivateAnimation(GameObject targetObject)
         {
-            Animator animator = obj.GetComponent<Animator>();
+            Animator animator = targetObject.GetComponent<Animator>();
             if (animator != null)
             {
-                animator.SetTrigger("DoorATrigger");
+                animator.SetTrigger("TriggerAnimation");
             }
         }
 
-    private void PlayCinematic(GameObject targetObject)
+    private void PlayCinematic()
     {
-        PlayableDirector director = obj.GetComponent<PlayableDirector>();
-        if (director!= null)
-        {
-            director.enabled = true;
-            GameObject player = GameObject.FindWithTag("Player");
-            player.GetComponent<PlayerControllerInput>().enabled = false;
-            // Opcionalmente, desactiva el PlayableDirector después de su duración
-            StartCoroutine(DisableDirectorAfterFinish(11));
-        } 
+        _playableDirector.Play(); 
     }
 
-    private IEnumerator DisableDirectorAfterFinish(float time)
-    {
-        yield return new WaitForSeconds(time); // Espera a que termine la timeline
-        GameObject player = GameObject.FindWithTag("Player");
-        player.GetComponent<PlayerControllerInput>().enabled = true;
-    }
-    
+    //Funcion para activar los eventos a traves de Triggers
      private void OnTriggerEnter(Collider other)
     {
+        
         // Verificar si el jugador ha activado el trigger
-        if (other.CompareTag("Player") && obj.CompareTag("Animacion") && myAnimationEvent != null )
+        if (other.CompareTag("Player") && targetObject.CompareTag("Animacion"))
         {
-            myAnimationEvent(obj); // Pasa la puerta al evento para activar la animación
+            myAnimationEvent(targetObject);
         }
-        if (other.CompareTag("Player") && obj.CompareTag("Cinematica") && myCinematicEvent != null )
+        if (other.CompareTag("Player") && targetObject.CompareTag("Cinematica"))
         {
-            myCinematicEvent(obj); // Pasa la puerta al evento para activar la cámara cinemática
+            PlayCinematic(); 
+            //Desturimos el game object para que el evento se ejecute una vez
             Destroy(gameObject.GetComponent<BoxCollider>());
         }
     }

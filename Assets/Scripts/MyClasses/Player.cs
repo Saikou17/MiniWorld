@@ -7,7 +7,7 @@ namespace Player{
 
     public class Player : IMovement
     {
-        //Attributes    
+        //Atributos de la clase jugador
         private float gravity = -9.81f;
         private float speed = 2.0f;
         private bool groundedPlayer;
@@ -19,17 +19,13 @@ namespace Player{
         private const string FrontWalkAnimation = "Forward";
         private const string SideWalkAnimation = "Side";
         private const string RandomAnimation = "Jump";
-
-
-        //Hashes de las animaciones
-        private readonly int _randomAnimationHash = Animator.StringToHash(name:"(JUMP01)");
         
         //Controlar el jugador
         public CharacterController controller { get; set; }
         public LayerMask groundMask;
         public Transform orientation;
 
-        //Methods
+        //Constructor de la clase jugador para inicializar las variables
         public Player(CharacterController characterController, LayerMask groundLayerMask)
             {
                 controller = characterController;
@@ -45,13 +41,28 @@ namespace Player{
             
         }
 
+        //Metodos
+
         //Funcion de movimiento del characte controller
         public void Move(Vector3 direction){
-            var localDirection = controller.transform.TransformDirection(Vector3.ClampMagnitude(direction,1f));
-            controller.Move(localDirection * Time.deltaTime * speed);
+            // Verificar si el jugador está en el suelo y ajustar la gravedad en consecuencia
+            if (AreYouOnTheGround() && velocity.y < 0)
+            {
+                velocity.y = -2f; // Valor pequeño para mantener al jugador en el suelo
+            }
+            else
+            {
+                // Aplicar gravedad si el jugador no está en el suelo
+                velocity.y += gravity * Time.deltaTime;
+            }
+
+            // Mover al jugador
+            var localDirection = controller.transform.TransformDirection(Vector3.ClampMagnitude(direction, 1f));
+            controller.Move(localDirection * Time.deltaTime * speed + velocity * Time.deltaTime);
+
+            // Actualizar animaciones
             _animator.SetFloat(FrontWalkAnimation, direction.z);
             _animator.SetFloat(SideWalkAnimation, direction.x);
-            
         }
 
         //Funcion de movimiento de la camara
@@ -63,17 +74,7 @@ namespace Player{
             //Aplicamos las rotaciones sobre la camara y el jugador
             cameraPlayer.localRotation = Quaternion.Euler(-cameraLook.y, 0, 0);
             controller.transform.rotation = Quaternion.Euler(0, cameraLook.x, 0);
-            // transform.localRotation = Quaternion.Euler(0,cameraLook.x,0);
-        }
-        
-        public void GroundedCharacter(){
-            if(AreYouOnTheGround() && velocity.y < 0)
-            {
-                velocity.y = 0f;
-                return;
-            }
-            velocity.y += gravity*Time.deltaTime;
-            controller.Move(velocity*Time.deltaTime);
+
         }
 
         public bool AreYouOnTheGround(){

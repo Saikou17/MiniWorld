@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class EsferaTec : MonoBehaviour
 {
-    
+    //Material o textura de la esfera
     public Material material;
+    //Una lista de vectores (poligonos de la esfera tecelada)
     List<Vector3> geometry;
+    // Una lista de índices (aristas) de la esfera tecelada
     List<int> topology;
 
     List<int> Subdivide(List<int> triangle) // Subdivide triángulos en 4 triángulos
